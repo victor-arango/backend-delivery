@@ -46,6 +46,37 @@ CREATE TABLE user_has_roles(
 );
 
 
+DROP TABLE IF EXISTS categories CASCADE;
+CREATE TABLE categories(
+	id BIGSERIAL PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	description VARCHAR(255) NOT NULL,
+	created_at TIMESTAMP(0) NOT NULL,
+	update_at TIMESTAMP(0) NOT NULL
+
+);
+
+
+
+DROP TABLE IF EXISTS products CASCADE;
+CREATE TABLE products(
+	id BIGSERIAL PRIMARY KEY,
+	name VARCHAR(180) NOT NULL UNIQUE,
+	description VARCHAR(255) NOT NULL,
+	price DECIMAL DEFAULT 0,
+	image1 VARCHAR(255) NOT NULL,
+	image2 VARCHAR(255) NULL,
+	image3 VARCHAR(255) NULL,
+	id_category BIGINT NOT NULL,
+ 	created_at TIMESTAMP(0) NOT NULL,
+	update_at TIMESTAMP(0) NOT NULL,
+	FOREIGN KEY(id_category) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+
+
+
 
 
 
@@ -70,4 +101,3 @@ VALUES(
 );
 
 
-v

@@ -31,6 +31,48 @@ User.findById = (id, callback) =>{
 
 }
 
+//Encuentra el usuario por Id
+User.findByUserId = (id) =>{
+    const sql =`SELECT 
+    u.id,
+    u.email,
+    u.name,
+    u.lastname,
+    u.image,
+    u.phone,
+    u.password,
+    u.session_token,
+	json_agg(
+		json_build_object(
+		'id', R.id,
+		'name', R.name,
+		'image', R.image,
+		'route', R.route
+		)
+	) AS roles
+    FROM
+        users as U
+	INNER JOIN	
+		user_has_roles as UHR
+	ON
+	UHR.id_user = U.id
+	
+	INNER JOIN
+	roles AS R
+	ON
+	R.id = UHR.id_rol
+	
+    WHERE U.id = $1
+	
+	GROUP BY 
+		U.id
+    `;
+    return db.oneOrNone(sql, id);
+}
+
+
+
+
 //Consulta el correo 
 
 User.findByEmail = (email) =>{
@@ -98,6 +140,49 @@ User.create = (user) =>{
        new Date()
     ]);
     
+}
+
+User.update = (user) =>{
+    const sql = `
+    UPDATE 
+        users
+    SET
+        name      = $2,
+        lastname  = $3,
+        phone     = $4,
+        image     = $5,
+        update_at =$6
+    WHERE
+        id = $1
+    `; 
+
+
+    return db.none(sql, [
+        user.id,
+        user.name,
+        user.lastname,
+        user.phone,
+        user.image,
+        new Date()
+    ])
+}
+User.updateToken = (id,token) =>{
+    const sql = `
+    UPDATE 
+        users
+    SET
+        session_token = $2
+       
+    WHERE
+        id = $1
+    `; 
+
+
+    return db.none(sql, [
+       id,
+       token
+        
+    ])
 }
 
 
