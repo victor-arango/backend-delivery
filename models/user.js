@@ -70,6 +70,33 @@ User.findByUserId = (id) =>{
     return db.oneOrNone(sql, id);
 }
 
+User.findByDeliveryMen= () =>{
+    const sql =`
+    SELECT 
+    u.id,
+    u.email,
+    u.name,
+    u.lastname,
+    u.image,
+    u.phone,
+    u.password,
+    u.session_token
+    FROM
+        users as u
+    INNER JOIN 
+        user_has_roles AS UHR
+    ON
+    UHR .id_user = u.id
+    INNER JOIN 
+        roles AS R
+    ON
+        R.id= UHR.id_rol
+    WHERE
+        R.id = 3 
+
+    `;
+    return db.manyOrNone(sql);
+}
 
 
 

@@ -2,6 +2,54 @@ const db = require('../config/config');
 
 const Product={};
 
+Product.findByCategory =(id_category) =>{
+    const sql =`
+            SELECT 
+    C.id AS id_category,
+    P.id AS id,
+    P.name,
+    P.description,
+    P.price,
+    P.image1,
+    P.image2,
+    P.image3
+FROM 
+    products AS P
+INNER JOIN
+    categories AS C
+ON 
+    P.id_category = C.id
+WHERE 
+    C.id = $1
+    
+    `;
+    return db.manyOrNone(sql, id_category);
+}
+// Product.findByCategory =(id_category) =>{
+//     const sql =`
+//             SELECT 
+//             C.id,
+//             P.name,
+//             P.description,
+//             P.price,
+//             P.image1,
+//             P.image2,
+//             P.image3,
+//             P.id_category
+//         FROM 
+//             products AS P
+//         INNER JOIN
+//             categories AS C
+//         ON 
+
+//             P.id_category = C.id
+//         WHERE 
+//             C.id = $1
+    
+//     `;
+//     return db.manyOrNone(sql, id_category);
+// }
+
 
 
 Product.create =(product) =>{
@@ -40,13 +88,13 @@ Product.update = (product) =>{
         UPDATE
             products
         SET
-            name =$2
-            description =$3
-            price =$4
-            image1 =$5
-            image2 =$6
-            image3 =$7
-            id_category =$8
+            name =$2,
+            description =$3,
+            price =$4,
+            image1 =$5,
+            image2 =$6,
+            image3 =$7,
+            id_category =$8,
             update_at =$9
         WHERE
             id = $1

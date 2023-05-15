@@ -6,6 +6,11 @@ module.exports =(app) =>{
 
 
     /*
+    * GET ROUTES 
+    */
+   app.get('/api/categories/getAll',passport.authenticate('jwt', {session:false}), categoriesController.getAll);
+
+    /*
     * POST ROUTES 
     */
 

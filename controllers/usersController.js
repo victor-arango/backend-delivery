@@ -28,6 +28,23 @@ module.exports = {
             const id = req.params.id;
 
             const data = await User.findByUserId(id);
+            console.log(`Repartidores: ${data}`);
+            return res.status(201).json(data);
+        }
+        catch(error){
+            console.log(`Error: ${error}`);
+            return res.status(501).json({
+                success: false,
+                message: 'Error al obtener los usuarios'
+            });
+        }
+    },
+    async findByDeliveryMen(req,res,next){
+        try{
+
+            const id = req.params.id;
+
+            const data = await User.findByDeliveryMen();
             console.log(`Usuario: ${data}`);
             return res.status(201).json(data);
         }
@@ -35,7 +52,7 @@ module.exports = {
             console.log(`Error: ${error}`);
             return res.status(501).json({
                 success: false,
-                message: 'Error al obtener el usuario'
+                message: 'Error al obtener los repartidores'
             });
         }
     },

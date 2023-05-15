@@ -9,6 +9,7 @@ module.exports=(app,upload) =>{
     //Llama los datos de la BD
     app.get('/api/users/getAll', usersController.getAll);
     app.get('/api/users/findById/:id', passport.authenticate('jwt', {session: false}), usersController.findById);
+    app.get('/api/users/findByDeliveryMen', passport.authenticate('jwt', {session: false}), usersController.findByDeliveryMen);
 
     //Guarda los datos del usuario
     app.post('/api/users/create', upload.array('image',1), usersController.registerWithImage);
